@@ -5,41 +5,49 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
-
+import quizapp.volkova.openbuttons.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var openLocationEditText: EditText
-    lateinit var openWebSiteEditText: EditText
-    lateinit var shareTextEditText: EditText
+//    private lateinit var openLocationEditText: EditText
+//    private lateinit var openWebSiteEditText: EditText
+//    private lateinit var shareTextEditText: EditText
 
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
 
-        openLocationEditText = findViewById<EditText>(R.id.location_edittext)
-        openWebSiteEditText = findViewById<EditText>(R.id.website_edittext)
-        shareTextEditText = findViewById<EditText>(R.id.share_edittext)
-        findViewById<Button>(R.id.open_location_button).setOnClickListener(this)
-        findViewById<Button>(R.id.open_website_button).setOnClickListener(this)
-        findViewById<Button>(R.id.share_text_button).setOnClickListener(this)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+//        openLocationEditText = findViewById<EditText>(R.id.location_edittext)
+//        openWebSiteEditText = findViewById<EditText>(R.id.website_edittext)
+//        shareTextEditText = findViewById<EditText>(R.id.share_edittext)
+        binding.openLocationButton.setOnClickListener(this)
+        binding.openWebsiteButton.setOnClickListener(this)
+        binding.shareTextButton.setOnClickListener(this)
+
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.open_website_button -> openWebsite(v)
-            R.id.open_location_button -> openLocation(v)
-            R.id.share_text_button -> shareText(v)
+            binding.openWebsiteButton.id -> openWebsite(v)
+            binding.openLocationButton.id -> openLocation(v)
+            binding.shareTextButton.id -> shareText(v)
         }
     }
 
     fun openWebsite(view: View?) {
-        val url: String = openWebSiteEditText.getText().toString()
+        val url: String = binding.websiteEdittext.text.toString()
         val webpage: Uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, webpage)
 
@@ -51,7 +59,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun openLocation(view: View?) {
-        val loc: String = openLocationEditText.getText().toString()
+        val loc: String = binding.locationEdittext.text.toString()
 
         val addressUri = Uri.parse("geo:0,0?q=$loc")
         val intent = Intent(Intent.ACTION_VIEW, addressUri)
@@ -63,7 +71,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun shareText(view: View?) {
-        val txt: String = shareTextEditText.getText().toString()
+        val txt: String = binding.shareEdittext.text.toString()
         val mimeType = "text/plain"
         ShareCompat.IntentBuilder
             .from(this)
