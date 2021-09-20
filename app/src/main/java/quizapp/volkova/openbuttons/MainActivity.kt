@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import quizapp.volkova.openbuttons.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -54,19 +55,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
-            Log.d("ImplicitIntents", "Can't handle this intent!")
+            Timber.tag("ImplicitIntents").e("Can't handle this intent!")
         }
     }
 
     fun openLocation(view: View?) {
-        val loc: String = binding.locationEdittext.text.toString()
+        val location: String = binding.locationEdittext.text.toString()
 
-        val addressUri = Uri.parse("geo:0,0?q=$loc")
+        val addressUri = Uri.parse("geo:0,0?q=$location")
         val intent = Intent(Intent.ACTION_VIEW, addressUri)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
-            Log.d("ImplicitIntents", "Can't handle this intent!")
+            Timber.tag("ImplicitIntents").e( "Can't handle this intent!")
         }
     }
 
